@@ -17,6 +17,9 @@
 </head>
 <body>
     <div id="container"></div>
+    <script>
+        window.googleApiKey = '{!! env('GOOGLE_MAP_API_KEY') !!}';
+    </script>
     <script src="/js/built/index.js"></script>
 </body>
 </html>
