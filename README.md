@@ -16,8 +16,14 @@ docker-compose version 1.9.0-rc4, build 181a4e9
 
 # Install (Docker-compose)
 ```
-# run the docker images
+# Run the docker images (debug mode)
 $ make docker-up
+
+# Run the docker images (background)
+$ make docker-start
+
+# Run the docker images (background/rebuild)
+$ make docker-build
 ```
 
 # Install (Standalone)
