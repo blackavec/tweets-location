@@ -1,0 +1,20 @@
+{
+    "name": "tweets-location",
+    "description": "",
+    "main": "",
+    "authors": [
+        "Mahan <eng.mahan.hazrati@gmail.com>"
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/mahanhaz/tweets-location",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "bootstrap-sass": "^3.3.7"
+    }
+}

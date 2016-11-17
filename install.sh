@@ -11,5 +11,6 @@ php artisan key:generate
 composer install
 composer dumpautoload -o
 npm install
+sudo bower install --allow-root
 
 cd -

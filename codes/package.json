@@ -1,18 +1,32 @@
 {
   "private": true,
   "scripts": {
-    "prod": "gulp --production",
-    "dev": "gulp watch"
+    "copy-react": "cp node_modules/react/dist/react-with-addons.js public/js/react.js",
+    "webpack-dev": "npm run copy-react && node_modules/.bin/webpack -d --watch",
+    "webpack-build": "npm run copy-react && node_modules/.bin/webpack -p",
+    "proxy": "./ngrok http 8081 --region=ap --hostname=ngrok.tweets-location.mahanhazrati.com"
   },
   "devDependencies": {
-    "bootstrap-sass": "^3.3.7",
-    "gulp": "^3.9.1",
-    "jquery": "^3.1.0",
-    "laravel-elixir": "^6.0.0-14",
-    "laravel-elixir-vue-2": "^0.2.0",
-    "laravel-elixir-webpack-official": "^1.0.2",
-    "lodash": "^4.16.2",
-    "vue": "^2.0.1",
-    "vue-resource": "^1.0.3"
+    "babel-core": "^6.4.5",
+    "babel-eslint": "^3.1.17",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "css-loader": "^0.25.0",
+    "eslint": "^0.23.0",
+    "sass-loader": "^4.0.2",
+    "node-sass": "^3.10.1",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.2"
+  },
+  "dependencies": {
+    "bower": "^1.7.9",
+    "jquery": "^3.1.1",
+    "moment": "^2.15.1",
+    "react": "^15.3.2",
+    "react-cookie": "^0.4.8",
+    "react-datepicker": "^0.30.0",
+    "react-dom": "^15.3.2",
+    "react-notification-system": "^0.2.10"
   }
 }

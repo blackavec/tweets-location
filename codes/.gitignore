@@ -1,9 +1,9 @@
 /node_modules
+/bower_components
 /public/storage
-/storage/*.key
+/public/js/built/*
 /vendor
 /.idea
 Homestead.json
 Homestead.yaml
-.env
-
+.DS_Store
