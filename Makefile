@@ -24,3 +24,17 @@ webpack-local:
 
 webpack-prod:
 	./webpack.sh build
+
+docker-up:
+	docker-compose up --build
+
+docker-down:
+	docker-compose down
+
+docker-build:
+	docker-compose down
+	docker-compose up --build -d
+
+docker-start:
+	docker-compose down
+	docker-compose up -d

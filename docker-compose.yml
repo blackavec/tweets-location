@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  tweets-location:
+    build: ./
+    ports:
+      - "80:80"
+      - "8081:80"
+    environment:
+      DB_HOST: "mysql"
+      DB_PORT: "3306"
+      DB_DATABASE: "mydb"
+      DB_USERNAME: "root"
+      DB_PASSWORD: "my-secret-pw"
+    volumes:
+      - "./:/var/www/"
+    links:
+      - mysql
+
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: "mydb"
+      MYSQL_ROOT_PASSWORD: "my-secret-pw"
+    volumes:
+      - ~/.data/mysql:/var/lib/mysql

@@ -4,6 +4,7 @@ source ./base.sh
 
 cd codes
 
-bash -c "$ENV php artisan serve --port $PORT"
+echo "$ENV php artisan serve --host=$HOST --port $PORT"
+bash -c "$ENV php artisan serve --host=$HOST --port $PORT"
 
 cd -

@@ -9,7 +9,18 @@ $ docker-compose -v
 docker-compose version 1.9.0-rc4, build 181a4e9
 ```
 
-# Install
+# Host file (/etc/hosts)
+```
+0.0.0.0 dev.tweets-location.mahanhazrati.com
+```
+
+# Install (Docker-compose)
+```
+# run the docker images
+$ make docker-up
+```
+
+# Install (Standalone)
 To install the app you just need to use the following commands:
 ```
 # To install dependencies
