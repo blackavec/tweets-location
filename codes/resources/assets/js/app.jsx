@@ -9,14 +9,31 @@ export default class App extends Component {
     this.state = {
       center: {lat: 13.726448, lng: 100.545081},
       zoom: 14,
-      mapLoaded: true,
+      mapLoaded: false,
     };
   }
 
   componentDidMount() {
-    this.setState({
-      mapLoaded: true,
-    });
+  }
+
+  createMapOptions(maps) {
+    return {
+      zoomControl: true,
+      zoomControlOptions: {
+        position: maps.ControlPosition.TOP_LEFT,
+        style: maps.ZoomControlStyle.LARGE,
+      },
+      mapTypeControl: true,
+      mapTypeControlOptions: {
+        position: maps.ControlPosition.TOP_RIGHT,
+      },
+      scaleControl: true,
+      streetViewControl: true,
+      streetViewControlOptions: {
+        position: maps.ControlPosition.TOP_LEFT
+      },
+      styles: [{stylers: [{'saturation': -100}, {'gamma': 0.8}, {'lightness': 4}, {'visibility': 'on'}]}]
+    }
   }
 
   render() {
@@ -37,6 +54,13 @@ export default class App extends Component {
           className="google-map-obj"
           defaultCenter={this.state.center}
           defaultZoom={this.state.zoom}
+          yesIWantToUseGoogleMapApiInternals
+          onGoogleApiLoaded={(map, maps) => {
+            this.setState({
+              mapLoaded: true,
+            });
+          }}
+          options={this.createMapOptions}
           bootstrapURLKeys={{
             key: window.googleApiKey,
             language: 'en',
