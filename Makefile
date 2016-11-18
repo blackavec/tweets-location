@@ -38,3 +38,6 @@ docker-build:
 docker-start:
 	docker-compose down
 	docker-compose up -d
+
+docker-migration:
+	@docker exec -it tweetslocation_tweets-location_1 bash -c "cd codes && php artisan migrate"
