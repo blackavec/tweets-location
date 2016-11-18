@@ -104,10 +104,4 @@ return [
 
     ],
 
-    'twitter' => [
-        'client_id' => env('TWITTER_OAUTH_CLIENT_ID'),
-        'client_secret' => env('TWITTER_OAUTH_CLIENT_SECRET'),
-        'redirect' => env('TWITTER_OAUTH_REDIRECT_URL'),
-    ],
-
 ];

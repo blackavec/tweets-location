@@ -1,10 +1,10 @@
 <?php
-namespace app\Repositories;
+namespace App\Repositories;
 
 use App\Models\User;
 
 /**
- * @package app\Repositories
+ * @package App\Repositories
  */
 class UserRepository
 {

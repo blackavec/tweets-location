@@ -9,7 +9,7 @@ use Laravel\Socialite\Facades\Socialite;
 /**
  * @package App\Http\Middleware
  */
-class Authentiate
+class Authenticate
 {
     /**
      * @var Socialite
@@ -23,10 +23,9 @@ class Authentiate
     public function __construct(
         Socialite $socialite,
         AuthManager $auth
-    )
-    {
+    ) {
         $this->socialite = $socialite;
-        $this->auth = $auth;
+        $this->auth      = $auth;
     }
 
     /**

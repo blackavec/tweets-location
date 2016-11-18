@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use app\Repositories\UserRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Session\SessionManager;
 use Laravel\Socialite\Two\InvalidStateException;
+use Illuminate\Auth\AuthManager;
+use Laravel\Socialite\Facades\Socialite;
 
 /**
  * @package App\Http\Controllers

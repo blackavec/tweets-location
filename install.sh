@@ -6,10 +6,11 @@ if [[ ! -e ./.env ]]; then
     cp .env.example .env
 fi
 
-php artisan key:generate
-
 composer install
 composer dumpautoload -o
+
+php artisan key:generate
+
 npm install
 sudo bower install --allow-root
 

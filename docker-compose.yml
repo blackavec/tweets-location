@@ -17,6 +17,16 @@ services:
     links:
       - mysql
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      MYSQL_DATABASE: "mydb"
+      MYSQL_ROOT_PASSWORD: "my-secret-pw"
+    links:
+      - mysql:db
+
   mysql:
     image: mysql
     environment:
