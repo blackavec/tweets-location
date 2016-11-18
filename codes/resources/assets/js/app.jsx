@@ -66,9 +66,17 @@ export default class App extends Component {
             language: 'en',
           }}
         ></GoogleMap>
-
         <div className="tweets-about-container">
           <span className={'tweets-about-caption' + (!this.state.mapLoaded ? ' hidden' : '')}>Tweets about Bangkok</span>
+        </div>
+        <div className="lower-box-container">
+          <input type="text"/>
+          <button className="">
+            Search
+          </button>
+          <button className="">
+            History
+          </button>
         </div>
       </div>
     );

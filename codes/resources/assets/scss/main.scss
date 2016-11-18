@@ -30,4 +30,24 @@
                 1px 1px 0 #fff;
         }
     }
+
+    .lower-box-container {
+        position: fixed;
+        padding: 0;
+        margin: 0;
+        bottom: 0;
+        font-size: 30px;
+        text-align: center;
+        display: block;
+        width: 100%;
+
+        input {
+            width: 50%;
+
+        }
+        
+        button {
+            width: 25%;
+        }
+    }
 }
