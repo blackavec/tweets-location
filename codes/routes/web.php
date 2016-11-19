@@ -1,7 +1,10 @@
 <?php
 
-Route::group(['middleware' => 'auth.twitter'], function () {
-    Route::get('/', 'HomeController@home')->name('home');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', [ 'as' => 'home', 'uses' => 'HomeController@home']);
 });
 
-Route::get('twitter-auth-redirect-url', 'AuthController@twitterAuthRedirectUrl');
+Route::get('twitter-auth-redirect-url', [
+    'as' => 'twitter-redirect',
+    'uses' => 'AuthController@twitterAuthRedirectUrl',
+]);
