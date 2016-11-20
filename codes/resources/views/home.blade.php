@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
 
     <script src="/js/react.js"></script>
+    <script
+        type="text/javascript"
+        src="https://maps.google.com/maps/api/js?libraries=places&key={!! env('GOOGLE_MAP_API_KEY') !!}&language=en">
+    </script>
 </head>
 <body>
     <div id="container"></div>

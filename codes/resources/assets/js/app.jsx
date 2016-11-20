@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 import $ from 'jquery';
 import GoogleMap from 'google-map-react';
@@ -14,6 +15,7 @@ export default class App extends Component {
       center: {lat: 13.726448, lng: 100.545081},
       zoom: 14,
       mapLoaded: false,
+      citySearchedPlaces: null,
     };
   }
 
@@ -36,9 +38,18 @@ export default class App extends Component {
       scaleControl: true,
       streetViewControl: true,
       streetViewControlOptions: {
-        position: maps.ControlPosition.TOP_LEFT
+        position: maps.ControlPosition.TOP_LEFT,
       },
-      styles: [{stylers: [{'saturation': -100}, {'gamma': 0.8}, {'lightness': 4}, {'visibility': 'on'}]}]
+      minZoom: 13,
+      maxZoom: 15,
+      styles: [{
+        stylers: [
+          {'saturation': -100},
+          {'gamma': 0.8},
+          {'lightness': 4},
+          {'visibility': 'on'},
+        ]
+      }]
     }
   }
 
@@ -57,10 +68,51 @@ export default class App extends Component {
   }
 
   /**
+   * Handle selected city name and navigate map to the location
+   */
+  handleSelectedCityName() {
+    const places = this.state.citySearchedPlaces
+
+    if (places.length === 0) {
+      return;
+    }
+
+    let bounds = new google.maps.LatLngBounds();
+
+    places.forEach((place) => {
+      if (!place.geometry) {
+        console.log("Returned place contains no geometry");
+
+        return;
+      }
+
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+    });
+
+    this.obj.map.fitBounds(bounds);
+  }
+
+  /**
    * Handle the click to search
    */
   clickSearch() {
-    const cityName = this.refs.cityNameRef.value;
+    const places = this.state.citySearchedPlaces
+
+    if (places.length === 0) {
+      return;
+    }
+
+    // extract the city name from map search result
+    const addressComponents = places[0].address_components;
+
+    const cityName = addressComponents.length > 0
+      ? addressComponents[0].long_name
+      : null;
 
     // validate the city name
     if (!cityName) {
@@ -68,10 +120,16 @@ export default class App extends Component {
     }
 
     this.setState({
-      searchCityName: cityName,
+      searchCityName: this.refs.cityNameRef.value,
     });
 
+    this.handleSelectedCityName();
+
     this.sendSearchRequest(cityName);
+
+    this.setState({
+      newSearchPlaces: null,
+    });
   }
 
   /**
@@ -107,7 +165,6 @@ export default class App extends Component {
    * @param searchResult
    */
   processSearchResult(searchResult) {
-    console.log(this.refs.map);
   }
 
   /**
@@ -140,9 +197,35 @@ export default class App extends Component {
           defaultCenter={this.state.center}
           defaultZoom={this.state.zoom}
           yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={(map, maps) => {
+          onGoogleApiLoaded={(obj) => {
+            // Map object after google map has been loaded completly
+            this.obj = obj;
+
             this.setState({
               mapLoaded: true,
+            });
+
+            this.searchBox = new obj.maps.places.SearchBox(
+              ReactDOM.findDOMNode(this.refs.cityNameRef)
+            );
+
+            this.searchBox.addListener('places_changed', () => {
+              const places = this.searchBox.getPlaces();
+
+              if (places.length > 0) {
+                this.state.citySearchedPlaces = places;
+              }
+
+              this.setState({
+                citySearchedPlaces: places.length > 0
+                  ? places
+                  : this.state.citySearchedPlaces,
+                newSearchPlaces: places,
+              });
+            });
+
+            this.obj.map.addListener('bounds_changed', () => {
+              this.searchBox.setBounds(this.obj.map.getBounds());
             });
           }}
           options={this.createMapOptions}
@@ -159,7 +242,11 @@ export default class App extends Component {
         </div>
         <div className="lower-box-container">
           <input type="text" placeholder="City name" ref="cityNameRef" />
-          <button onClick={this.clickSearch.bind(this)}>
+          <button
+            onClick={this.clickSearch.bind(this)}
+            disabled={!this.state.citySearchedPlaces ||
+                this.state.newSearchPlaces !== this.state.citySearchedPlaces
+            }>
             Search
           </button>
           <button onClick={this.clickHistory.bind(this)}>
