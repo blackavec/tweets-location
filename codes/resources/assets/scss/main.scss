@@ -59,6 +59,43 @@
             border-right: 1px solid white;
         }
     }
+    .user-tweet {
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        border: 2px solid #3CA4D9;
+        cursor: pointer;
+        z-index: 200;
+      }
+
+      .text {
+        color: #333;
+        font-family: Roboto,Arial;
+        font-size: 13px;
+        position: absolute;
+        left: -130px;
+        bottom: 1px;
+        border-radius: 2px;
+        background-color: white;
+        min-width: 300px;
+        z-index: 201;
+        box-shadow: 0px 0px 5px #3CA4D9;
+        display: block;
+
+        .close {
+          color: #A6A6A6;
+          font-size: 14px;
+          padding: 10px;
+          clear: both;
+        }
+
+        p {
+          margin: 0;
+          padding: 10px;
+        }
+      }
+    }
 }
 
 .pac-container {

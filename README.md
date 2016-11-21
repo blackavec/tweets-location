@@ -1,3 +1,6 @@
+# Preview
+![Screenshot](screenshots/searchpng "Search")
+
 # Preparation
 To set everything up and running you need to have docker installed on your system
 ```

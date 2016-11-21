@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 
 import $ from 'jquery';
 import GoogleMap from 'google-map-react';
-import Waiting from './waiting.jsx';
 import NotificationSystem from 'react-notification-system';
+import Waiting from './waiting.jsx';
+import UserTweet from './user-tweet.jsx';
 
 export default class App extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ export default class App extends Component {
       zoom: 14,
       mapLoaded: false,
       citySearchedPlaces: null,
+      searchedResult: [],
     };
   }
 
@@ -40,7 +42,7 @@ export default class App extends Component {
       streetViewControlOptions: {
         position: maps.ControlPosition.TOP_LEFT,
       },
-      minZoom: 13,
+      minZoom: 11,
       maxZoom: 15,
       styles: [{
         stylers: [
@@ -86,12 +88,7 @@ export default class App extends Component {
         return;
       }
 
-      if (place.geometry.viewport) {
-        // Only geocodes have viewport.
-        bounds.union(place.geometry.viewport);
-      } else {
-        bounds.extend(place.geometry.location);
-      }
+      bounds.extend(place.geometry.location);
     });
 
     this.obj.map.fitBounds(bounds);
@@ -101,7 +98,7 @@ export default class App extends Component {
    * Handle the click to search
    */
   clickSearch() {
-    const places = this.state.citySearchedPlaces
+    const places = this.state.citySearchedPlaces;
 
     if (places.length === 0) {
       return;
@@ -109,6 +106,9 @@ export default class App extends Component {
 
     // extract the city name from map search result
     const addressComponents = places[0].address_components;
+
+    // extract the geo Location from map search result
+    const geoLocation = places[0].geometry.location;
 
     const cityName = addressComponents.length > 0
       ? addressComponents[0].long_name
@@ -125,7 +125,10 @@ export default class App extends Component {
 
     this.handleSelectedCityName();
 
-    this.sendSearchRequest(cityName);
+    this.sendSearchRequest(cityName, {
+      lat: geoLocation.lat(),
+      lng: geoLocation.lng(),
+    });
 
     this.setState({
       newSearchPlaces: null,
@@ -136,16 +139,17 @@ export default class App extends Component {
    * Perform the Search by sending request to the server
    *
    * @param cityName
+   * @param geoLocation
    */
-  sendSearchRequest(cityName) {
+  sendSearchRequest(cityName, geoLocation) {
     this.setState({
       waiting: true,
     });
 
-    this.request = $.getJSON('/api/search', {cityName});
+    this.request = $.getJSON('/api/search', {cityName, geoLocation});
 
-    this.request.done((searchResult) => {
-      this.processSearchResult(searchResult);
+    this.request.done((searchedResult) => {
+      this.setState({searchedResult});
     });
 
     this.request.fail(() => {
@@ -157,14 +161,6 @@ export default class App extends Component {
         waiting: false,
       });
     });
-  }
-
-  /**
-   * process the search result
-   *
-   * @param searchResult
-   */
-  processSearchResult(searchResult) {
   }
 
   /**
@@ -233,7 +229,27 @@ export default class App extends Component {
             key: window.googleApiKey,
             language: 'en',
           }}
-        ></GoogleMap>
+        >
+          {
+            this.state.searchedResult.map((tweet, index) => {
+              if (!tweet.geo) {
+                return;
+              }
+
+              console.log(tweet, index);
+              return (
+                <UserTweet
+                  key={index}
+                  lat={tweet.geo.coordinates[0]}
+                  lng={tweet.geo.coordinates[1]}
+                  text={tweet.text}
+                  avatar={tweet.user.profile_image_url}
+                  date={tweet.created_at}
+                />
+              )
+            })
+          }
+        </GoogleMap>
         <div className="tweets-about-container">
           <span className={
               'tweets-about-caption' +
