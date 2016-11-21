@@ -6,6 +6,7 @@ import GoogleMap from 'google-map-react';
 import NotificationSystem from 'react-notification-system';
 import Waiting from './waiting.jsx';
 import UserTweet from './user-tweet.jsx';
+import History from './history.jsx';
 
 export default class App extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ export default class App extends Component {
       mapLoaded: false,
       citySearchedPlaces: null,
       searchedResult: [],
+      showHistory: false,
     };
   }
 
@@ -167,7 +169,9 @@ export default class App extends Component {
    * Handle the click to history menu
    */
   clickHistory() {
+    let showHistory = !this.state.showHistory;
 
+    this.setState({showHistory});
   }
 
   /**
@@ -236,7 +240,6 @@ export default class App extends Component {
                 return;
               }
 
-              console.log(tweet, index);
               return (
                 <UserTweet
                   key={index}
@@ -260,9 +263,7 @@ export default class App extends Component {
           <input type="text" placeholder="City name" ref="cityNameRef" />
           <button
             onClick={this.clickSearch.bind(this)}
-            disabled={!this.state.citySearchedPlaces ||
-                this.state.newSearchPlaces !== this.state.citySearchedPlaces
-            }>
+            disabled={!this.state.citySearchedPlaces}>
             Search
           </button>
           <button onClick={this.clickHistory.bind(this)}>
@@ -270,6 +271,8 @@ export default class App extends Component {
           </button>
           <Waiting show={this.state.waiting} />
         </div>
+
+        <History show={this.state.showHistory} />
         <NotificationSystem ref="notificationSystem" />
       </div>
     );
