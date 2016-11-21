@@ -1,5 +1,5 @@
 # Preview
-![Screenshot](screenshots/searchpng "Search")
+![Screenshot](./screenshots/search.png "Search")
 
 # Preparation
 To set everything up and running you need to have docker installed on your system
@@ -17,7 +17,7 @@ docker-compose version 1.9.0-rc4, build 181a4e9
 0.0.0.0 dev.tweets-location.mahanhazrati.com
 ```
 
-# Install (Docker-compose)
+# Running (Docker-compose)
 ```
 # Run the docker images (debug mode)
 $ make docker-up
@@ -29,7 +29,7 @@ $ make docker-start
 $ make docker-build
 ```
 
-# Install (Standalone)
+# Install 
 To install the app you just need to use the following commands:
 ```
 # To install dependencies
@@ -52,6 +52,9 @@ $ make webpack-local
 
 # To run the webpack for production
 $ make webpack-prod
+
+# To Run Migration on docker compose
+docker-migration
 ```
 ## Support on Beerpay
 Hey dude! Help me out for a couple of :beers:!

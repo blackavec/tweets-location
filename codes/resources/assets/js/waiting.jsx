@@ -7,10 +7,18 @@ export default class Waiting extends Component {
     this.state = props;
   }
 
+  /**
+   * apply props to state once it changed from parent
+   *
+   * @param props
+   */
   componentWillReceiveProps(props) {
     this.setState(props);
   }
 
+  /**
+   * Render the states
+   */
   render() {
     return this.state.show
       ? (
@@ -23,6 +31,7 @@ export default class Waiting extends Component {
   }
 }
 
+// Validation on props
 Waiting.propTypes = {
   show: PropTypes.bool,
 };
