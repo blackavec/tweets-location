@@ -23,7 +23,7 @@ export default class History extends Component {
     return this.state.show
       ? (
         <div className='history-container'>
-
+          
         </div>
       )
       : null
@@ -34,4 +34,5 @@ export default class History extends Component {
 // Validation on props
 History.propTypes = {
   show: PropTypes.bool,
+  items: PropTypes.,
 };

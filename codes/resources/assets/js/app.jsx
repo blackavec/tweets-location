@@ -20,6 +20,7 @@ export default class App extends Component {
       citySearchedPlaces: null,
       searchedResult: [],
       showHistory: false,
+      historyItems: [],
     };
   }
 
@@ -270,7 +271,7 @@ export default class App extends Component {
           <Waiting show={this.state.waiting} />
         </div>
 
-        <History show={this.state.showHistory} />
+        <History show={this.state.showHistory} items={this.state.historyItems} />
         <NotificationSystem ref="notificationSystem" />
       </div>
     );

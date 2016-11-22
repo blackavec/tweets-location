@@ -81,9 +81,9 @@ $desktop: "(min-width: 1024px)";
       bottom: 1px;
       border-radius: 2px;
       background-color: white;
+      box-shadow: 0px 0px 5px #3CA4D9;
       min-width: 300px;
       z-index: 201;
-      box-shadow: 0px 0px 5px #3CA4D9;
       display: block;
 
       .close {
@@ -102,11 +102,14 @@ $desktop: "(min-width: 1024px)";
 
   .history-container {
     width: 25%;
-    height: 70%;
+    min-height: 20%;
+    max-height: 70%;
     position: fixed;
-    right: 0;
-    bottom: 45px;
-    background: #3CA4D9;
+    right: 10px;
+    bottom: 55px;
+    border-radius: 2px;
+    background-color: white;
+    box-shadow: 0px 0px 5px #3CA4D9;
   }
 }
 
@@ -132,6 +135,10 @@ $desktop: "(min-width: 1024px)";
       input, button {
         font-size: 15px;
       }
+    }
+
+    .history-container {
+      width: 50%;
     }
   }
 }
