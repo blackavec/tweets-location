@@ -31,6 +31,7 @@ class ApiController extends Controller
     public function search(Request $request) : JsonResponse
     {
         $this->validate($request, [
+            'caption' => 'required|string',
             'cityName' => 'required|string',
             'geoLocation' => 'required|array',
             'geoLocation.lat' => 'required|numeric',

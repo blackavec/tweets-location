@@ -40,4 +40,4 @@ docker-start:
 	docker-compose up -d
 
 docker-migration:
-	@docker exec -it tweetslocation_tweets-location_1 bash -c "cd codes && php artisan migrate"
+	@docker exec -it tweetslocation_tweets-location_1 bash -c "cd codes && php artisan migrate:refresh"

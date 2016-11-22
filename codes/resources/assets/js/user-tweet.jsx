@@ -5,6 +5,7 @@ export default class UserTweet extends Component {
     super(props);
 
     this.state = props;
+    console.log(props);
   }
 
   /**

@@ -100,7 +100,8 @@ export default class App extends Component {
    * Handle the click to search
    */
   clickSearch() {
-    const places = this.state.citySearchedPlaces;
+    const caption = this.refs.cityNameRef.value;
+    const places  = this.state.citySearchedPlaces;
 
     if (places.length === 0) {
       return;
@@ -122,12 +123,12 @@ export default class App extends Component {
     }
 
     this.setState({
-      searchCityName: this.refs.cityNameRef.value,
+      searchCityName: caption,
     });
 
     this.handleSelectedCityName();
 
-    this.sendSearchRequest(cityName, {
+    this.sendSearchRequest(caption, cityName, {
       lat: geoLocation.lat(),
       lng: geoLocation.lng(),
     });
@@ -140,15 +141,16 @@ export default class App extends Component {
   /**
    * Perform the Search by sending request to the server
    *
+   * @param caption
    * @param cityName
    * @param geoLocation
    */
-  sendSearchRequest(cityName, geoLocation) {
+  sendSearchRequest(caption, cityName, geoLocation) {
     this.setState({
       waiting: true,
     });
 
-    this.request = $.getJSON('/api/search', {cityName, geoLocation});
+    this.request = $.getJSON('/api/search', {caption, cityName, geoLocation});
 
     this.request.done((searchedResult) => {
       this.setState({searchedResult});
@@ -236,18 +238,14 @@ export default class App extends Component {
         >
           {
             this.state.searchedResult.map((tweet, index) => {
-              if (!tweet.geo) {
-                return;
-              }
-
               return (
                 <UserTweet
                   key={index}
-                  lat={tweet.geo.coordinates[0]}
-                  lng={tweet.geo.coordinates[1]}
+                  lat={tweet.lat}
+                  lng={tweet.lng}
                   text={tweet.text}
-                  avatar={tweet.user.profile_image_url}
-                  date={tweet.created_at}
+                  avatar={tweet.profile_avatar}
+                  date={tweet.tweet_timestamp}
                 />
               )
             })

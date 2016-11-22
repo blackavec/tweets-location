@@ -9,7 +9,7 @@ services:
     environment:
       DB_HOST: "mysql"
       DB_PORT: "3306"
-      DB_DATABASE: "mydb"
+      DB_DATABASE: "mydb_tweets"
       DB_USERNAME: "root"
       DB_PASSWORD: "my-secret-pw"
     volumes:
@@ -22,7 +22,7 @@ services:
     ports:
       - "8080:80"
     environment:
-      MYSQL_DATABASE: "mydb"
+      MYSQL_DATABASE: "mydb_tweets"
       MYSQL_ROOT_PASSWORD: "my-secret-pw"
     links:
       - mysql:db
@@ -30,7 +30,7 @@ services:
   mysql:
     image: mysql
     environment:
-      MYSQL_DATABASE: "mydb"
+      MYSQL_DATABASE: "mydb_tweets"
       MYSQL_ROOT_PASSWORD: "my-secret-pw"
     volumes:
-      - ~/.data/mysql:/var/lib/mysql
+      - ~/.data/mysql/tweets:/var/lib/mysql
