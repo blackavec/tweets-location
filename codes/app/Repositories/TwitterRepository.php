@@ -64,7 +64,7 @@ class TwitterRepository
             $query['caption'],
             $query['cityName']
         );
-        
+
         if ($historyTweetsInPastHour->count() > 0) {
             return $this->transformTweetCacheData($historyTweetsInPastHour);
         }
@@ -81,6 +81,50 @@ class TwitterRepository
         $this->registerHistoryTweets($historyId, $tweets);
 
         return $this->transformTweetApiData($tweets);
+    }
+
+    /**
+     * Search for tweets with no caching and storing in history
+     *
+     * @param array $query
+     *
+     * @return array
+     */
+    public function searchNoCache(array $query) : array
+    {
+        $userId = $this->auth->user()->id;
+
+        $tweets = $this->searchTweets($query['cityName'], $query['geoLocation']);
+
+        return $this->transformTweetApiData($tweets);
+    }
+
+    /**
+     * fetch history
+     *
+     * @return array
+     */
+    public function history() : array
+    {
+        $userId = $this->auth->user()->id;
+
+        return $this->fetchHistory($userId)->toArray();
+    }
+
+    /**
+     * fetch history list
+     *
+     * @param int    $userId
+     * @param string $caption
+     * @param string $cityName
+     *
+     * @return Collection
+     */
+    protected function fetchHistory(int $userId) : Collection
+    {
+        return $this->history->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
     /**

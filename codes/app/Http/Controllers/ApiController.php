@@ -38,6 +38,20 @@ class ApiController extends Controller
             'geoLocation.lng' => 'required|numeric',
         ]);
 
+        if ($request->get('noCache', false)) {
+            return response()->json($this->twitterRepos->searchNoCache($request->all()), 200);
+        }
+
         return response()->json($this->twitterRepos->search($request->all()), 200);
+    }
+
+    /**
+     * fetch history
+     *
+     * @return JsonResponse
+     */
+    public function history() : JsonResponse
+    {
+        return response()->json($this->twitterRepos->history(), 200);
     }
 }

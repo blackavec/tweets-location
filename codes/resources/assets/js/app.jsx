@@ -20,7 +20,7 @@ export default class App extends Component {
       citySearchedPlaces: null,
       searchedResult: [],
       showHistory: false,
-      historyItems: [],
+      historyEntities: [],
     };
   }
 
@@ -146,12 +146,15 @@ export default class App extends Component {
    * @param cityName
    * @param geoLocation
    */
-  sendSearchRequest(caption, cityName, geoLocation) {
+  sendSearchRequest(caption, cityName, geoLocation, noCache) {
     this.setState({
       waiting: true,
     });
 
-    this.request = $.getJSON('/api/search', {caption, cityName, geoLocation});
+    this.request = $.getJSON(
+      '/api/search?' + Math.floor((Math.random() * 10000) + 1),
+      {caption, cityName, geoLocation, noCache}
+    );
 
     this.request.done((searchedResult) => {
       this.setState({searchedResult});
@@ -174,7 +177,65 @@ export default class App extends Component {
   clickHistory() {
     let showHistory = !this.state.showHistory;
 
-    this.setState({showHistory});
+    this.setState({
+      showHistory,
+    });
+
+    if (showHistory) {
+      this.sendHistoryRequest();
+    }
+  }
+
+  /**
+   * Handle the click to history menu entities
+   */
+  onHistoryEntityClick(data) {
+    this.obj.map.setCenter(new google.maps.LatLng(data.lat, data.lng));
+
+    this.refs.cityNameRef.value = data.caption;
+
+    this.sendSearchRequest(
+      data.caption,
+      data.cityName,
+      {
+        lat: data.lat,
+        lng: data.lng
+      },
+      true,
+    );
+
+    this.setState({
+      showHistory: false,
+    });
+  }
+
+  /**
+   * Fetch history list
+   */
+  sendHistoryRequest() {
+    this.setState({
+      historyWaiting: true,
+    });
+
+    this.request = $.getJSON('/api/history');
+
+    this.request.done((historyEntities) => {
+      this.setState({historyEntities});
+    });
+
+    this.request.fail(() => {
+      this.showNotification('Failed to fetch history', 'error');
+
+      this.setState({
+        showHistory: false,
+      });
+    });
+
+    this.request.always(() => {
+      this.setState({
+        historyWaiting: false,
+      });
+    });
   }
 
   /**
@@ -271,7 +332,13 @@ export default class App extends Component {
           <Waiting show={this.state.waiting} />
         </div>
 
-        <History show={this.state.showHistory} items={this.state.historyItems} />
+        <History 
+          ref="history"
+          show={this.state.showHistory}
+          waiting={this.state.historyWaiting}
+          entities={this.state.historyEntities}
+          onClick={this.onHistoryEntityClick.bind(this)}
+        />
         <NotificationSystem ref="notificationSystem" />
       </div>
     );
