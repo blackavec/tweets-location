@@ -1,5 +1,5 @@
 # Preview
-![Screenshot](./screenshots/search.png "Search")
+![Screenshot](./screenshots/screen.png "Search")
 ![Screenshot](./screenshots/history.png "History")
 
 # Preparation
