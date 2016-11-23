@@ -1,5 +1,6 @@
 # Preview
 ![Screenshot](./screenshots/search.png "Search")
+![Screenshot](./screenshots/history.png "History")
 
 # Preparation
 To set everything up and running you need to have docker installed on your system
